@@ -1,0 +1,26 @@
+{
+    "name": "mascame/artificer-login-plugin",
+    "description": "Login core plugin for artificer.",
+    "homepage": "https://github.com/marcmascarell/artificer-login-plugin",
+    "keywords": [
+        "laravel",
+        "artificer",
+        "login",
+        "plugin"
+    ],
+    "authors": [
+        {
+            "name": "Marc Mascarell",
+            "email": "marcmascarell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mascame\\Artificer\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
