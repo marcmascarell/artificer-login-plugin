@@ -38,6 +38,7 @@ class AuthController extends BaseController
     public function __construct()
     {
         $this->redirectTo = \URL::route('admin.home');
+        $this->redirectAfterLogout = \URL::route('admin.showlogin');
         $this->guard = 'admin';
 
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);

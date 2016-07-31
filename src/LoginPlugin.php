@@ -1,6 +1,7 @@
 <?php namespace Mascame\Artificer;
 
 
+use Illuminate\Database\Schema\Blueprint;
 use Mascame\Artificer\Plugin\AbstractPlugin;
 
 use Closure;
@@ -50,7 +51,7 @@ class LoginPlugin extends AbstractPlugin {
             'auth.providers' => array_merge($providers, [
                 'admin' => [
                     'driver' => 'eloquent',
-                    'model' => \App\ArtificerUser::class,
+                    'model' => ArtificerUser::class,
                 ],
             ])
         ]);
@@ -60,7 +61,7 @@ class LoginPlugin extends AbstractPlugin {
             'auth.providers' => array_merge($providers, [
                 'admin' => [
                     'driver' => 'eloquent',
-                    'model' => \App\ArtificerUser::class,
+                    'model' => ArtificerUser::class,
                 ],
             ])
         ]);
@@ -82,14 +83,34 @@ class LoginPlugin extends AbstractPlugin {
      * This will be called when plugin is installed
      */
     public function install() {
-        // Maybe some table creation
+        if (\Schema::hasTable('artificer_users')) return;
+
+        \Schema::create('artificer_users', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('username')->unique();
+            $table->string('role');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        ArtificerUser::create([
+            'name' => 'Demo User',
+            'email' => 'artificer@artificer.at', // fake email
+            'username' => 'artificer',
+            'password' => \Hash::make('artificer'),
+            'role' => 'admin',
+        ]);
     }
 
     /**
      * This will be called when plugin is uninstalled
      */
     public function uninstall() {
-        // Maybe some table drop or cleanup
+        \Schema::dropIfExists('artificer_users');
     }
 
     /**
