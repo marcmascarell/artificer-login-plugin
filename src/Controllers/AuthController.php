@@ -91,7 +91,7 @@ class AuthController extends BaseController
 
     public function showLoginForm()
     {
-        return view($this->getView('pages.login'));
+        return view('artificer-login::login');
     }
 
     // Todo
