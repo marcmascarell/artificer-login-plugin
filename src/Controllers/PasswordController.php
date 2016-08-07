@@ -3,7 +3,7 @@
 namespace Mascame\Artificer\Controllers;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Mascame\Artificer\Http\Controllers\BaseController;
+use Mascame\Artificer\Controllers\BaseController;
 
 class PasswordController extends BaseController
 {

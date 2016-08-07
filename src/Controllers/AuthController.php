@@ -3,7 +3,6 @@
 namespace Mascame\Artificer\Controllers;
 
 use App\User;
-use Mascame\Artificer\Http\Controllers\BaseController;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
