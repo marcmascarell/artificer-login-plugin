@@ -31,36 +31,24 @@
                         {!! Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) !!}
                     </div>
 
-                    {{--<div class="form-group">--}}
-                        {{--<input type="checkbox" name="remember_me"/> Remember me--}}
-                    {{--</div>--}}
                 </div>
 
-                <div class="footer">                                                               
+                <div class="footer">
                     <button type="submit" class="btn bg-light-blue btn-block">Sign me in</button>
-                    
-                    {{--<p><a href="#">I forgot my password</a></p>--}}
-                    {{----}}
-                    {{--<a href="register.html" class="text-center">Register a new membership</a>--}}
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="remember"> Remember Me
+                        </div>
+
+                        <div class="col-sm-6">
+                            <a class="" href="{{ route('admin.password.reset.show') }}">Forgot Your Password?</a>
+                        </div>
+
+                    </div>
                 </div>
 
             {!! Form::close() !!}
-
-            {{--<div class="margin text-center">--}}
-                {{--<span>Sign in using social networks</span>--}}
-                {{--<br/>--}}
-                {{--<button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>--}}
-                {{--<button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>--}}
-                {{--<button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>--}}
-
-            {{--</div>--}}
         </div>
-
-
-        <!-- jQuery 2.0.2 -->
-        {{--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>--}}
-        {{--<!-- Bootstrap -->--}}
-        {{--<script src="../../js/bootstrap.min.js" type="text/javascript"></script>        --}}
-
     </body>
 </html>
