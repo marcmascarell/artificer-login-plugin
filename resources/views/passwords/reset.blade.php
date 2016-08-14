@@ -11,10 +11,8 @@
             <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label for="email" class="col-md-12 ">E-Mail Address art</label>
-
                 <div class="col-md-12">
-                    <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}">
+                    <input id="email" type="email" placeholder="E-Mail Address" class="form-control" name="email" value="{{ $email or old('email') }}">
 
                     @if ($errors->has('email'))
                         <span class="help-block">
@@ -25,10 +23,8 @@
             </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                <label for="password" class="col-md-12 ">Password</label>
-
                 <div class="col-md-12">
-                    <input id="password" type="password" class="form-control" name="password">
+                    <input id="password" type="password" placeholder="Password" class="form-control" name="password">
 
                     @if ($errors->has('password'))
                         <span class="help-block">
@@ -39,9 +35,8 @@
             </div>
 
             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                <label for="password-confirm" class="col-md-12 ">Confirm Password</label>
                 <div class="col-md-12">
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+                    <input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control" name="password_confirmation">
 
                     @if ($errors->has('password_confirmation'))
                         <span class="help-block">
@@ -51,13 +46,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-12 col-md-offset-4">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-btn fa-refresh"></i> Reset Password
-                    </button>
-                </div>
-            </div>
         </div>
     
         <div class="footer">
