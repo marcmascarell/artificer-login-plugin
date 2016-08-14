@@ -6,6 +6,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class ArtificerUser extends Authenticatable
 {
+
+    protected $table = 'artificer_users';
+
     /**
      * The attributes that are mass assignable.
      *

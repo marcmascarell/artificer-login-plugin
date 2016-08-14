@@ -2,7 +2,8 @@
 
 namespace Mascame\Artificer\Controllers;
 
-use App\User;
+use Illuminate\Http\Request;
+use Mascame\Artificer\ArtificerUser;
 use Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -29,6 +30,8 @@ class AuthController extends BaseController
      */
     protected $redirectTo;
 
+    protected $guard = 'admin';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -38,11 +41,25 @@ class AuthController extends BaseController
     {
         $this->redirectTo = \URL::route('admin.home');
         $this->redirectAfterLogout = \URL::route('admin.showlogin');
-        $this->guard = 'admin';
+
+        $this->resetView = 'artificer-login::password.reset';
 
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
 
         parent::__construct();
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        // Allow email or username
+        $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $this->username = $field;
+        $request->merge([$field => $request->input('username')]);
+
+        return $this->validate($request, [
+            'username' => 'required|max:255',
+            'password' => 'required|min:6',
+        ]);
     }
 
     /**
@@ -55,21 +72,9 @@ class AuthController extends BaseController
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
+            'username' => 'required|max:255',
             'email' => 'required|email|max:255|unique:artificer_users',
             'password' => 'required|min:6|confirmed',
-        ]);
-    }
-
-    protected function validate(\Illuminate\Http\Request $request, array $data)
-    {
-        // Allow email or username
-        $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $this->username = $field;
-        $request->merge([$field => $request->input('username')]);
-
-        return Validator::make($data, [
-            'username' => 'required|max:255',
-            'password' => 'required|min:6',
         ]);
     }
 
@@ -77,14 +82,16 @@ class AuthController extends BaseController
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return ArtificerUser
      */
     protected function create(array $data)
     {
-        return User::create([
+        return ArtificerUser::create([
             'name' => $data['name'],
+            'username' => $data['username'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role' => 'user',
         ]);
     }
 
@@ -93,9 +100,9 @@ class AuthController extends BaseController
         return view('artificer-login::login');
     }
 
-    // Todo
     public function showRegistrationForm()
     {
-        return view('admin.auth.register');
+        return view('artificer-login::register');
     }
+
 }

@@ -3,7 +3,6 @@
 namespace Mascame\Artificer\Controllers;
 
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Mascame\Artificer\Controllers\BaseController;
 
 class PasswordController extends BaseController
 {
@@ -20,6 +19,11 @@ class PasswordController extends BaseController
 
     use ResetsPasswords;
 
+    protected $resetView = 'artificer-login::passwords.reset';
+    protected $linkRequestView = 'artificer-login::passwords.email';
+    protected $broker = 'admin';
+    protected $guard = 'admin';
+
     /**
      * Create a new password controller instance.
      *
@@ -27,8 +31,11 @@ class PasswordController extends BaseController
      */
     public function __construct()
     {
+        $this->redirectTo = \URL::route('admin.home');
+
         $this->middleware($this->guestMiddleware());
 
         parent::__construct();
     }
+
 }

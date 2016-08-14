@@ -56,23 +56,13 @@ class LoginPlugin extends AbstractPlugin {
             ])
         ]);
 
-        $providers = config('auth.providers');
-        config([
-            'auth.providers' => array_merge($providers, [
-                'admin' => [
-                    'driver' => 'eloquent',
-                    'model' => ArtificerUser::class,
-                ],
-            ])
-        ]);
-
         $passwords = config('auth.passwords');
         config([
             'auth.passwords' => array_merge($passwords, [
-                'admins' => [
+                'admin' => [
                     'provider' => 'admin',
-                    'email' => 'admin.auth.emails.password',
-                    'table' => 'password_resets', // Todo? specific table
+                    'email' => 'artificer-login::emails.password',
+                    'table' => 'artificer_password_resets',
                     'expire' => 60,
                 ],
             ])
@@ -97,6 +87,14 @@ class LoginPlugin extends AbstractPlugin {
             $table->timestamps();
         });
 
+        \Schema::create('artificer_password_resets', function(Blueprint $table)
+        {
+            $table->string('email')->index();
+            $table->string('token')->index();
+            $table->timestamp('created_at');
+        });
+
+        // Seed
         ArtificerUser::create([
             'name' => 'Demo User',
             'email' => 'artificer@artificer.at', // fake email
@@ -111,6 +109,7 @@ class LoginPlugin extends AbstractPlugin {
      */
     public function uninstall() {
         \Schema::dropIfExists('artificer_users');
+        \Schema::dropIfExists('artificer_password_resets');
     }
 
     /**
