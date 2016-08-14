@@ -21,6 +21,13 @@ class LoginPluginServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'artificer-login');
+
+        Artificer::assetManager()->add([
+            'font-awesome-cdn',
+            'bootstrap-css-cdn',
+//            'packages/mascame/artificer-default-theme/css/app.css',
+//            'packages/mascame/artificer-default-theme/css/style.css',
+        ]);
     }
 
     /**
