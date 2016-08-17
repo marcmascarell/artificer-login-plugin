@@ -3,9 +3,12 @@
 namespace Mascame\Artificer;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Mascame\Artificer\Notifications\ResetPassword;
 
 class ArtificerUser extends Authenticatable
 {
+    use Notifiable;
 
     protected $table = 'artificer_users';
 
@@ -26,4 +29,15 @@ class ArtificerUser extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mascame\Artificer\Controllers;
+namespace Mascame\Artificer\Controllers\dadsa;
 
 use Illuminate\Http\Request;
 use Mascame\Artificer\ArtificerUser;

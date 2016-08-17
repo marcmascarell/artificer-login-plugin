@@ -6,20 +6,31 @@
     {!! Form::open(array('route' => 'admin.login')) !!}
     <div class="body bg-gray">
 
-        @if($errors->has())
-            @foreach ($errors->all() as $error)
-                <div>{{ $error }}</div>
-            @endforeach
-        @endif
+            {{ csrf_field() }}
 
-        <div class="form-group">
-            {!! Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Username or email')) !!}
+            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                <div>
+                    <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" autofocus placeholder="Username or email">
 
-        </div>
-        <div class="form-group">
-            {!! Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) !!}
-        </div>
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
 
+            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                <div>
+                    <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+
+                    @if ($errors->has('password'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
     </div>
 
     <div class="footer">

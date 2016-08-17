@@ -126,7 +126,7 @@ class LoginPlugin extends AbstractPlugin {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->guest(\URL::route('admin.showlogin'));
+                return redirect()->guest(\URL::route('admin.login.show'));
             }
         }
 
