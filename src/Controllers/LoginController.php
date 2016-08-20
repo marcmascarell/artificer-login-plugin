@@ -28,7 +28,10 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo;
+
     protected $redirectAfterLogout;
+
+    protected $username = 'username';
 
     /**
      * Create a new controller instance.
@@ -37,8 +40,6 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
-
         $this->redirectTo = \URL::route('admin.home');
         $this->redirectAfterLogout = \URL::route('admin.login.show');
     }
@@ -89,6 +90,6 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'username';
+        return $this->username;
     }
 }

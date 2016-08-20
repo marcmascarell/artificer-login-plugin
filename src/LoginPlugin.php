@@ -34,39 +34,18 @@ class LoginPlugin extends AbstractPlugin {
      */
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'artificer-login');
+
         \App::make('router')->middlewareGroup('artificer-auth', [LoginPlugin::class]);
 
-        $guards = config('auth.guards');
-        config([
-            'auth.guards' => array_merge($guards, [
-                'admin' => [
-                    'driver' => 'session',
-                    'provider' => 'admin',
-                ],
-            ])
+        Artificer::assetManager()->add([
+            'font-awesome-cdn',
+            'bootstrap-css-cdn',
+//            'packages/mascame/artificer-default-theme/css/app.css',
+//            'packages/mascame/artificer-default-theme/css/style.css',
         ]);
 
-        $providers = config('auth.providers');
-        config([
-            'auth.providers' => array_merge($providers, [
-                'admin' => [
-                    'driver' => 'eloquent',
-                    'model' => ArtificerUser::class,
-                ],
-            ])
-        ]);
-
-        $passwords = config('auth.passwords');
-        config([
-            'auth.passwords' => array_merge($passwords, [
-                'admin' => [
-                    'provider' => 'admin',
-                    'email' => 'artificer-login::emails.password',
-                    'table' => 'artificer_password_resets',
-                    'expire' => 60,
-                ],
-            ])
-        ]);
+        $this->addAuthConfig();
     }
 
     /**
@@ -125,12 +104,45 @@ class LoginPlugin extends AbstractPlugin {
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest(\URL::route('admin.login.show'));
             }
+
+            return redirect()->guest(\URL::route('admin.login.show'));
         }
 
         return $next($request);
     }
 
+    protected function addAuthConfig() {
+        $guards = config('auth.guards');
+        config([
+            'auth.guards' => array_merge($guards, [
+                'admin' => [
+                    'driver' => 'session',
+                    'provider' => 'admin',
+                ],
+            ])
+        ]);
+
+        $providers = config('auth.providers');
+        config([
+            'auth.providers' => array_merge($providers, [
+                'admin' => [
+                    'driver' => 'eloquent',
+                    'model' => ArtificerUser::class,
+                ],
+            ])
+        ]);
+
+        $passwords = config('auth.passwords');
+        config([
+            'auth.passwords' => array_merge($passwords, [
+                'admin' => [
+                    'provider' => 'admin',
+                    'email' => 'artificer-login::emails.password',
+                    'table' => 'artificer_password_resets',
+                    'expire' => 60,
+                ],
+            ])
+        ]);
+    }
 }
