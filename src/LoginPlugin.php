@@ -1,7 +1,8 @@
 <?php namespace Mascame\Artificer;
 
 
-use Illuminate\Database\Schema\Blueprint;
+use Mascame\Artificer\Assets\AssetsManagerInterface;
+use Mascame\Artificer\Extension\ResourceCollector;
 use Mascame\Artificer\Plugin\AbstractPlugin;
 
 use Closure;
@@ -29,6 +30,28 @@ class LoginPlugin extends AbstractPlugin {
 
     }
 
+    public function resources(ResourceCollector $collector) {
+        $collector->loadMigrationsFrom(__DIR__.'/../database/migrations/');
+
+//        $collector->publishes([
+//            __DIR__.'/../resources/views' =>  public_path('packages/mascame/test')
+//        ]);
+//
+//        $collector->publishes([
+//            __DIR__.'/../resources/views1' =>  public_path('packages/mascame/test2')
+//        ]);
+
+        return $collector;
+    }
+
+    public function assets(AssetsManagerInterface $manager)
+    {
+        $manager->add([
+            'font-awesome-cdn',
+            'bootstrap-css-cdn'
+        ]);
+    }
+
     /**
      * This will be called if the plugin is installed
      */
@@ -52,27 +75,6 @@ class LoginPlugin extends AbstractPlugin {
      * This will be called when plugin is installed
      */
     public function install() {
-        if (\Schema::hasTable('artificer_users')) return;
-
-        \Schema::create('artificer_users', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('role');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        \Schema::create('artificer_password_resets', function(Blueprint $table)
-        {
-            $table->string('email')->index();
-            $table->string('token')->index();
-            $table->timestamp('created_at');
-        });
-
         // Seed
         ArtificerUser::create([
             'name' => 'Demo User',
@@ -87,8 +89,7 @@ class LoginPlugin extends AbstractPlugin {
      * This will be called when plugin is uninstalled
      */
     public function uninstall() {
-        \Schema::dropIfExists('artificer_users');
-        \Schema::dropIfExists('artificer_password_resets');
+        // todo: look into migrations table and find tables given the migration path
     }
 
     /**
