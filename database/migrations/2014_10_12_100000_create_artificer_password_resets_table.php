@@ -28,6 +28,6 @@ class CreateArtificerPasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artificer_password_resets');
+        Schema::drop('artificer_password_resets');
     }
 }

@@ -61,13 +61,6 @@ class LoginPlugin extends AbstractPlugin {
 
         \App::make('router')->middlewareGroup('artificer-auth', [LoginPlugin::class]);
 
-        Artificer::assetManager()->add([
-            'font-awesome-cdn',
-            'bootstrap-css-cdn',
-//            'packages/mascame/artificer-default-theme/css/app.css',
-//            'packages/mascame/artificer-default-theme/css/style.css',
-        ]);
-
         $this->addAuthConfig();
     }
 
@@ -76,13 +69,17 @@ class LoginPlugin extends AbstractPlugin {
      */
     public function install() {
         // Seed
-        ArtificerUser::create([
-            'name' => 'Demo User',
-            'email' => 'artificer@artificer.at', // fake email
-            'username' => 'artificer',
-            'password' => \Hash::make('artificer'),
-            'role' => 'admin',
-        ]);
+        $result = ArtificerUser::find(1);
+
+        if (! $result) {
+            ArtificerUser::create([
+                'name' => 'Demo User',
+                'email' => 'artificer@artificer.at', // fake email
+                'username' => 'artificer',
+                'password' => \Hash::make('artificer'),
+                'role' => 'admin',
+            ]);
+        }
     }
 
     /**

@@ -33,6 +33,6 @@ class CreateArtificerUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artificer_users');
+        Schema::drop('artificer_users');
     }
 }
