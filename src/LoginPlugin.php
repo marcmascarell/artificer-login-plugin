@@ -13,13 +13,14 @@ class LoginPlugin extends AbstractPlugin {
     public $version = '1.0';
     public $name = 'Login plugin';
     public $thumbnail = ''; // url
+    public $slug = 'login-plugin'; // url
 
     /**
      * Artificer does not know about your constructor so you
      * can inject any dependency you need
      */
     public function __construct() {
-
+        $this->configFile = 'admin.extensions.' . $this->slug;
     }
 
     public function getRoutes() {
@@ -30,16 +31,18 @@ class LoginPlugin extends AbstractPlugin {
 
     }
 
+    /**
+     * Extension config is not available until boot
+     *
+     * @param ResourceCollector $collector
+     * @return ResourceCollector
+     */
     public function resources(ResourceCollector $collector) {
         $collector->loadMigrationsFrom(__DIR__.'/../database/migrations/');
 
-//        $collector->publishes([
-//            __DIR__.'/../resources/views' =>  public_path('packages/mascame/test')
-//        ]);
-//
-//        $collector->publishes([
-//            __DIR__.'/../resources/views1' =>  public_path('packages/mascame/test2')
-//        ]);
+        $collector->publishes([
+            __DIR__.'/../config/' => $this->getConfigPath(),
+        ]);
 
         return $collector;
     }
@@ -61,7 +64,7 @@ class LoginPlugin extends AbstractPlugin {
 
         \App::make('router')->middlewareGroup('artificer-auth', [LoginPlugin::class]);
 
-        $this->addAuthConfig();
+        $this->mergeRecursiveAuthConfig();
     }
 
     /**
@@ -110,37 +113,12 @@ class LoginPlugin extends AbstractPlugin {
         return $next($request);
     }
 
-    protected function addAuthConfig() {
-        $guards = config('auth.guards');
+    protected function mergeRecursiveAuthConfig() {
         config([
-            'auth.guards' => array_merge($guards, [
-                'admin' => [
-                    'driver' => 'session',
-                    'provider' => 'admin',
-                ],
-            ])
-        ]);
-
-        $providers = config('auth.providers');
-        config([
-            'auth.providers' => array_merge($providers, [
-                'admin' => [
-                    'driver' => 'eloquent',
-                    'model' => ArtificerUser::class,
-                ],
-            ])
-        ]);
-
-        $passwords = config('auth.passwords');
-        config([
-            'auth.passwords' => array_merge($passwords, [
-                'admin' => [
-                    'provider' => 'admin',
-                    'email' => 'artificer-login::emails.password',
-                    'table' => 'artificer_password_resets',
-                    'expire' => 60,
-                ],
-            ])
+            'auth' => array_merge_recursive(
+                config('auth'),
+                $this->getConfig()['auth']
+            )
         ]);
     }
 }
