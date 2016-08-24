@@ -86,13 +86,6 @@ class LoginPlugin extends AbstractPlugin {
     }
 
     /**
-     * This will be called when plugin is uninstalled
-     */
-    public function uninstall() {
-        // todo: look into migrations table and find tables given the migration path
-    }
-
-    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
