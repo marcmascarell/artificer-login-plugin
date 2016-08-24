@@ -44,6 +44,8 @@ class LoginPlugin extends AbstractPlugin {
             __DIR__.'/../config/' => $this->getConfigPath(),
         ]);
 
+        $collector->loadViewsFrom(__DIR__.'/../resources/views', 'artificer-login');
+
         return $collector;
     }
 
@@ -60,8 +62,6 @@ class LoginPlugin extends AbstractPlugin {
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'artificer-login');
-
         \App::make('router')->middlewareGroup('artificer-auth', [LoginPlugin::class]);
 
         $this->mergeRecursiveAuthConfig();
