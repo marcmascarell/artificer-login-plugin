@@ -2,8 +2,8 @@
 
 namespace Mascame\Artificer\Controllers;
 
-use App\User;
 use Mascame\Artificer\ArtificerUser;
+use Mascame\Artificer\UsesLoginPluginConfig;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -22,7 +22,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers, UsesLoginPluginConfig;
 
     /**
      * Where to redirect users after login / registration.
@@ -40,7 +40,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
 
-        $this->redirectTo = \URL::route('admin.home');
+        $this->redirectTo = \URL::route($this->getConfig('login.redirects.register'));
     }
 
     /**
@@ -67,18 +67,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return ArtificerUser::create([
+        $model = $this->getConfig('auth.providers.admin.model');
+
+        return $model::create([
             'name' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'role' => 'user',
+            'password' => bcrypt($data['password'])
         ]);
     }
 
     protected function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard($this->getGuard());
     }
 
     /**
@@ -88,6 +89,6 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('artificer-login::register');
+        return view($this->getConfig('login.views.register'));
     }
 }

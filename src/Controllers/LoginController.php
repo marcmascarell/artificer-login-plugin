@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Mascame\Artificer\UsesLoginPluginConfig;
 
 class LoginController extends Controller
 {
@@ -20,7 +21,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, UsesLoginPluginConfig;
 
     /**
      * Where to redirect users after login / registration.
@@ -40,8 +41,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = \URL::route('admin.home');
-        $this->redirectAfterLogout = \URL::route('admin.login.show');
+        $this->redirectTo = \URL::route($this->getConfig('login.redirects.login'));
+        $this->redirectAfterLogout = \URL::route($this->getConfig('login.redirects.logout'));
     }
 
     public function logout(Request $request)
@@ -70,12 +71,12 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('artificer-login::login');
+        return view($this->getConfig('login.views.login'));
     }
 
     public function showRegistrationForm()
     {
-        return view('artificer-login::register');
+        return view($this->getConfig('login.views.register'));
     }
 
     /**
@@ -85,7 +86,7 @@ class LoginController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard($this->getGuard());
     }
 
     public function username()

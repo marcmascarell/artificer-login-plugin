@@ -5,6 +5,7 @@ namespace Mascame\Artificer\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Mascame\Artificer\UsesLoginPluginConfig;
 
 class ForgotPasswordController extends Controller
 {
@@ -19,7 +20,7 @@ class ForgotPasswordController extends Controller
     |
     */
 
-    use SendsPasswordResetEmails;
+    use SendsPasswordResetEmails, UsesLoginPluginConfig;
 
     /**
      * Create a new controller instance.
@@ -33,7 +34,7 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('artificer-login::passwords.email');
+        return view($this->getConfig('login.views.forgot-password'));
     }
 
     /**
@@ -43,6 +44,6 @@ class ForgotPasswordController extends Controller
      */
     public function broker()
     {
-        return Password::broker('admin');
+        return Password::broker($this->getBroker());
     }
 }

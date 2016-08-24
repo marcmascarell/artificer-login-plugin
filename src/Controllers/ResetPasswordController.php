@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Mascame\Artificer\UsesLoginPluginConfig;
 
 class ResetPasswordController extends Controller
 {
@@ -21,7 +22,7 @@ class ResetPasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+    use ResetsPasswords, UsesLoginPluginConfig;
 
     /**
      * Create a new controller instance.
@@ -32,7 +33,7 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
 
-        $this->redirectTo = \URL::route('admin.home');
+        $this->redirectTo = \URL::route($this->getConfig('login.redirects.reset-password'));
     }
 
     /**
@@ -42,7 +43,7 @@ class ResetPasswordController extends Controller
      */
     public function broker()
     {
-        return Password::broker('admin');
+        return Password::broker($this->getBroker());
     }
 
     /**
@@ -52,7 +53,7 @@ class ResetPasswordController extends Controller
      */
     protected function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard($this->getGuard());
     }
 
     /**
@@ -66,7 +67,7 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('artificer-login::passwords.reset')->with(
+        return view($this->getConfig('login.views.reset-password'))->with(
             ['token' => $token, 'email' => $request->email]
         );
     }
