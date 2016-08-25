@@ -105,7 +105,7 @@ class LoginPlugin extends AbstractPlugin {
         config([
             'auth' => array_merge_recursive(
                 config('auth'),
-                $this->getConfig()['auth']
+                $this->getConfig('auth')
             )
         ]);
     }
