@@ -10,26 +10,20 @@ use Auth;
 
 class LoginPlugin extends AbstractPlugin {
 
-    public $version = '1.0';
+    /**
+     * @var string
+     */
     public $name = 'Login plugin';
-    public $thumbnail = ''; // url
-    public $slug = 'login-plugin'; // url
 
     /**
-     * Artificer does not know about your constructor so you
-     * can inject any dependency you need
+     * @var string
      */
-    public function __construct() {
-        $this->configFile = 'admin.extensions.' . $this->slug;
-    }
+    public $thumbnail = ''; // url
 
-    public function getRoutes() {
-
-    }
-
-    public function getMenu() {
-
-    }
+    /**
+     * @var string
+     */
+    public $slug = 'artificer-login';
 
     /**
      * Extension config is not available until boot
@@ -40,15 +34,16 @@ class LoginPlugin extends AbstractPlugin {
     public function resources(ResourceCollector $collector) {
         $collector->loadMigrationsFrom(__DIR__.'/../database/migrations/');
 
-        $collector->publishes([
-            __DIR__.'/../config/' => $this->getConfigPath(),
-        ]);
+        $collector->loadViewsFrom(__DIR__.'/../resources/views', $this->slug);
 
-        $collector->loadViewsFrom(__DIR__.'/../resources/views', 'artificer-login');
+        $collector->publishes([__DIR__.'/../config/' => $this->getConfigPath()]);
 
         return $collector;
     }
 
+    /**
+     * @param AssetsManagerInterface $manager
+     */
     public function assets(AssetsManagerInterface $manager)
     {
         $manager->add([
@@ -86,7 +81,7 @@ class LoginPlugin extends AbstractPlugin {
     }
 
     /**
-     * Handle an incoming request.
+     * Middleware 'artificer-auth'. Handles an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
