@@ -1,6 +1,9 @@
 <?php namespace Mascame\Artificer;
 
-
+use Mascame\Artificer\Controllers\LoginController as LoginController;
+use Mascame\Artificer\Controllers\ForgotPasswordController as ForgotPasswordController;
+use Mascame\Artificer\Controllers\RegisterController as RegisterController;
+use Mascame\Artificer\Controllers\ResetPasswordController as ResetPasswordController;
 use Mascame\Artificer\Assets\AssetsManagerInterface;
 use Mascame\Artificer\Extension\ResourceCollector;
 use Mascame\Artificer\Plugin\AbstractPlugin;
@@ -24,6 +27,25 @@ class LoginPlugin extends AbstractPlugin {
      * @var string
      */
     public $slug = 'artificer-login';
+
+    public function getRoutes() {
+        \Route::group(['prefix' => 'user'], function () {
+            // Authentication Routes...
+            \Route::get('login', LoginController::class . '@showLoginForm')->name('admin.login.show');
+            \Route::post('login', LoginController::class . '@login')->name('admin.login');
+            \Route::get('logout', LoginController::class . '@logout')->name('admin.logout');
+
+            // Registration Routes...
+            \Route::get('register', RegisterController::class . '@showRegistrationForm')->name('admin.register.show');
+            \Route::post('register', RegisterController::class . '@register')->name('admin.register');
+
+            // Password Reset Routes...
+            \Route::get('password/reset', ForgotPasswordController::class . '@showLinkRequestForm')->name('admin.password.reset.show');
+            \Route::post('password/email', ForgotPasswordController::class . '@sendResetLinkEmail')->name('admin.password.reset.email');
+            \Route::get('password/reset/{token}', ResetPasswordController::class . '@showResetForm')->name('admin.password.reset.recover');
+            \Route::post('password/reset', ResetPasswordController::class . '@reset')->name('admin.password.reset');
+        });
+    }
 
     /**
      * Extension config is not available until boot
@@ -57,7 +79,7 @@ class LoginPlugin extends AbstractPlugin {
      */
     public function boot()
     {
-        \App::make('router')->middlewareGroup('artificer-auth', [LoginPlugin::class]);
+        \App::make('router')->pushMiddlewareToGroup('artificer-auth', LoginPlugin::class);
 
         $this->mergeRecursiveAuthConfig();
     }
@@ -67,15 +89,15 @@ class LoginPlugin extends AbstractPlugin {
      */
     public function install() {
         // Seed
-        $result = ArtificerUser::find(1);
+        $model = $this->getConfig('auth.providers.admin.model');
+        $result = $model::find(1);
 
         if (! $result) {
-            ArtificerUser::create([
+            $model::create([
                 'name' => 'Demo User',
                 'email' => 'artificer@artificer.at', // fake email
                 'username' => 'artificer',
-                'password' => \Hash::make('artificer'),
-                'role' => 'admin',
+                'password' => \Hash::make('artificer')
             ]);
         }
     }
