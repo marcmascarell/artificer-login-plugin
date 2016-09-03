@@ -12,7 +12,12 @@ class LoginPluginServiceProvider extends ArtificerExtensionServiceProvider {
      */
     public function register()
     {
-        Artificer::pluginManager()->add($this->package, LoginPlugin::class);
+        $this->addPlugin(LoginPlugin::class);
     }
+
+//    public function register()
+//    {
+//
+//    }
 
 }
