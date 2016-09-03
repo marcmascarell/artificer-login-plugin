@@ -60,6 +60,8 @@ class LoginPlugin extends AbstractPlugin {
 
         $collector->publishes([__DIR__.'/../config/' => $this->getConfigPath()]);
 
+        $collector->mergeRecursiveConfigFrom($this->getConfigPathFile('auth'), 'auth');
+
         return $collector;
     }
 
@@ -80,16 +82,17 @@ class LoginPlugin extends AbstractPlugin {
     public function boot()
     {
         \App::make('router')->pushMiddlewareToGroup('artificer-auth', LoginPlugin::class);
-
-        $this->mergeRecursiveAuthConfig();
     }
 
     /**
+     * Don't use $this->getConfig here because config was already loaded,
+     * you should have merged in resources method
+     *
      * This will be called when plugin is installed
      */
     public function install() {
         // Seed
-        $model = $this->getConfig('auth.providers.admin.model');
+        $model = config('auth.providers.admin.model');
         $result = $model::find(1);
 
         if (! $result) {
@@ -123,12 +126,4 @@ class LoginPlugin extends AbstractPlugin {
         return $next($request);
     }
 
-    protected function mergeRecursiveAuthConfig() {
-        config([
-            'auth' => array_merge_recursive(
-                config('auth'),
-                $this->getConfig('auth')
-            )
-        ]);
-    }
 }
