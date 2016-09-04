@@ -3,7 +3,7 @@
 
 class LoginPluginServiceProvider extends ArtificerExtensionServiceProvider {
 
-    protected $package = 'mascame/login';
+    protected $package = 'mascame/artificer-login-plugin';
 
     public function register()
     {
