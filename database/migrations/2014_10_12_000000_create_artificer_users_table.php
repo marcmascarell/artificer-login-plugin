@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArtificerUsersTable extends Migration
+class CreateArtificerUsersTable extends \Mascame\Artificer\ArtificerMigration
 {
     /**
      * Run the migrations.
