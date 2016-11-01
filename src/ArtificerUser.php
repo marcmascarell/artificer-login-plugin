@@ -18,7 +18,7 @@ class ArtificerUser extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password', 'role'
+        'name', 'username', 'email', 'password', 'role',
     ];
 
     /**

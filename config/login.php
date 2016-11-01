@@ -10,7 +10,7 @@ return [
         'login' => 'admin.home',
         'logout' => 'admin.login.show',
         'register' => 'admin.home',
-        'reset-password' => 'admin.home'
+        'reset-password' => 'admin.home',
     ],
 
     'views' => [
@@ -18,5 +18,5 @@ return [
         'register' => 'artificer-login::register',
         'forgot-password' => 'artificer-login::passwords.email',
         'reset-password' => 'artificer-login::passwords.reset',
-    ]
+    ],
 ];
