@@ -41,7 +41,7 @@
                 <input type="checkbox" name="remember"> Remember Me
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-6 text-right">
                 <a class="" href="{{ route('admin.password.reset.show') }}">Forgot Your Password?</a>
             </div>
 
