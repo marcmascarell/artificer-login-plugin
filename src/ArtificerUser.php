@@ -5,9 +5,11 @@ namespace Mascame\Artificer;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Mascame\Artificer\Notifications\ResetPassword;
+use Spatie\Permission\Traits\HasRoles;
 
 class ArtificerUser extends Authenticatable
 {
+    use HasRoles;
     use Notifiable;
 
     protected $table = 'artificer_users';
