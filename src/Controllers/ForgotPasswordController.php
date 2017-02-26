@@ -3,9 +3,9 @@
 namespace Mascame\Artificer\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Mascame\Artificer\UsesLoginPluginConfig;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
 {

@@ -2,10 +2,10 @@
 
 namespace Mascame\Artificer;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Mascame\Artificer\Notifications\ResetPassword;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class ArtificerUser extends Authenticatable
 {

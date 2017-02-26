@@ -2,15 +2,15 @@
 
 namespace Mascame\Artificer;
 
+use Auth;
+use Closure;
+use Mascame\Artificer\Plugin\AbstractPlugin;
+use Mascame\Artificer\Extension\ResourceCollector;
+use Mascame\Artificer\Assets\AssetsManagerInterface;
 use Mascame\Artificer\Controllers\LoginController as LoginController;
-use Mascame\Artificer\Controllers\ForgotPasswordController as ForgotPasswordController;
 use Mascame\Artificer\Controllers\RegisterController as RegisterController;
 use Mascame\Artificer\Controllers\ResetPasswordController as ResetPasswordController;
-use Mascame\Artificer\Assets\AssetsManagerInterface;
-use Mascame\Artificer\Extension\ResourceCollector;
-use Mascame\Artificer\Plugin\AbstractPlugin;
-use Closure;
-use Auth;
+use Mascame\Artificer\Controllers\ForgotPasswordController as ForgotPasswordController;
 
 class LoginPlugin extends AbstractPlugin
 {

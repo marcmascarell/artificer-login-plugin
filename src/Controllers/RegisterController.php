@@ -2,12 +2,12 @@
 
 namespace Mascame\Artificer\Controllers;
 
-use Mascame\Artificer\ArtificerUser;
-use Mascame\Artificer\UsesLoginPluginConfig;
 use Validator;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Mascame\Artificer\ArtificerUser;
+use Mascame\Artificer\UsesLoginPluginConfig;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
