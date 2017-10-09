@@ -3,11 +3,10 @@
 @section('content')
     <div class="header">Sign In</div>
 
-    {!! Form::open(array('route' => 'admin.login')) !!}
-    <div class="body bg-gray">
+    <form action="{{ route('admin.login') }}" method="POST">
+        {{ csrf_field() }}
 
-            {{ csrf_field() }}
-
+        <div class="body bg-gray">
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                 <div>
                     <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" autofocus placeholder="Username or email">
@@ -31,22 +30,21 @@
                     @endif
                 </div>
             </div>
-    </div>
-
-    <div class="footer">
-        <button type="submit" class="btn bg-light-blue btn-block">Sign me in</button>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <input type="checkbox" name="remember"> Remember Me
-            </div>
-
-            <div class="col-sm-6 text-right">
-                <a class="" href="{{ route('admin.password.reset.show') }}">Forgot Your Password?</a>
-            </div>
-
         </div>
-    </div>
 
-    {!! Form::close() !!}
+        <div class="footer">
+            <button type="submit" class="btn bg-light-blue btn-block">Sign me in</button>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <input type="checkbox" name="remember"> Remember Me
+                </div>
+
+                <div class="col-sm-6 text-right">
+                    <a class="" href="{{ route('admin.password.reset.show') }}">Forgot Your Password?</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
 @endsection

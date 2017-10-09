@@ -6,7 +6,6 @@
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
         {!! \Mascame\Artificer\Artificer::assetManager()->css() !!}
-        {!! \Mascame\Artificer\Artificer::assetManager()->js() !!}
 
         <style>
             .header {
