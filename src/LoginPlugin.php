@@ -121,7 +121,9 @@ class LoginPlugin extends AbstractPlugin
     {
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
-                return response('Unauthorized.', 401);
+                return response('Unauthorized.', 401, [
+                    'X-Missing-Auth' => true
+                ]);
             }
 
             return redirect()->guest(\URL::route('admin.login.show'));
