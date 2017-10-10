@@ -122,7 +122,7 @@ class LoginPlugin extends AbstractPlugin
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401, [
-                    'X-Missing-Auth' => true
+                    'X-Missing-Auth' => true,
                 ]);
             }
 
