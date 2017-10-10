@@ -42,4 +42,33 @@ class ArtificerUser extends Authenticatable
     {
         $this->notify(new ResetPassword($token));
     }
+
+    /**
+     * A user may have multiple roles.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(
+            config('admin.permission.models.role'),
+            config('admin.permission.table_names.user_has_roles'),
+            'user_id'
+        );
+    }
+
+    /**
+     * A user may have multiple direct permissions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(
+            config('admin.permission.models.permission'),
+            config('admin.permission.table_names.user_has_permissions'),
+            'user_id'
+
+        );
+    }
 }
