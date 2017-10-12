@@ -63,7 +63,7 @@ class LoginPlugin extends AbstractPlugin
 
         $collector->publishes([__DIR__.'/../config/' => $this->getConfigPath()]);
 
-        $collector->mergeRecursiveConfigFrom($this->getConfigPathFile('auth'), 'auth');
+        $collector->mergeRecursiveConfigFrom(__DIR__.'/../config/', $this->getConfigKey());
 
         return $collector;
     }
@@ -84,6 +84,9 @@ class LoginPlugin extends AbstractPlugin
      */
     public function boot()
     {
+        // Special case, we want it to be merged with Laravel's auth
+        Utils::mergeConfig('auth', $this->getConfig('auth'));
+
         \App::make('router')->pushMiddlewareToGroup('artificer-auth', self::class);
     }
 
