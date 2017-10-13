@@ -85,7 +85,7 @@ class LoginPlugin extends AbstractPlugin
     public function boot()
     {
         // Special case, we want it to be merged with Laravel's auth
-        Utils::mergeConfig('auth', $this->getConfig('auth'));
+        Config::mergeConfig('auth', $this->getConfig('auth'));
 
         \App::make('router')->pushMiddlewareToGroup('artificer-auth', self::class);
     }
