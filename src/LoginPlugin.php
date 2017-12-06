@@ -50,7 +50,7 @@ class LoginPlugin extends AbstractPlugin
     }
 
     /**
-     * Extension config is not available until boot.
+     * This extension config is not available until boot.
      *
      * @param ResourceCollector $collector
      * @return ResourceCollector
@@ -91,15 +91,17 @@ class LoginPlugin extends AbstractPlugin
     }
 
     /**
-     * Don't use $this->getConfig here because config was already loaded,
-     * you should have merged in resources method.
+     * We don't have the config available as usual for this extension,
+     * as it is an special case.
      *
      * This will be called when plugin is installed
      */
     public function install()
     {
+        $config = $this->getConfig('auth');
+
         // Seed
-        $model = config('auth.providers.admin.model');
+        $model = $config['providers']['admin']['model'];
         $result = $model::find(1);
 
         if (! $result) {
